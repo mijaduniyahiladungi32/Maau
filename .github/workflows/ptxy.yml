@@ -2,7 +2,7 @@ name: tt
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 */12 * * *"  #
   workflow_dispatch:
 
 jobs:
@@ -30,33 +30,20 @@ jobs:
       if: always()
       run: rm -f pxcode.py
 
-    - name: Ensure target directory variable exists
-      run: |
-        if [ -z "${{ secrets.TARGET_NAMEX }}" ]; then
-          echo "TARGET_NAMEX is empty. Please set the secret correctly."
-          exit 1
-        fi
-
-    - name: Remove existing folder if any
-      run: |
-        if [ -d "${{ secrets.TARGET_NAMEX }}" ]; then
-          rm -rf "${{ secrets.TARGET_NAMEX }}"
-        fi
-
     - name: Clone target private repository
       run: |
-        git clone "https://x-access-token:${{ secrets.TARGET_TOKEN2X }}@${{ secrets.TARGET_URLX }}" "${{ secrets.TARGET_NAMEX }}"
+        git clone https://x-access-token:${{ secrets.TARGET_TOKEN2X }}@${{ secrets.TARGET_URLX }} ${{ secrets.TARGET_NAMEX }}
 
     - name: Copy selected playlist files to target repository
       run: |
-        cp -v *.m3u "${{ secrets.TARGET_NAMEX }}/" || true
-        cp -v *.json "${{ secrets.TARGET_NAMEX }}/" || true
+        cp *.txt ${{ secrets.TARGET_NAMEX }}/ || true
+        cp *.json ${{ secrets.TARGET_NAMEX }}/ || true
 
     - name: Commit & push to target repository
       run: |
-        cd "${{ secrets.TARGET_NAMEX }}"
+        cd ${{ secrets.TARGET_NAMEX }}
         git config user.name "${{ secrets.TARGET_REPO_USER }}"
         git config user.email "${{ secrets.TARGET_REPO_USER }}@users.noreply.github.com"
         git add .
-        git diff-index --quiet HEAD || git commit -m "Auto update playlist on $(date '+%Y-%m-%d %H:%M:%S')"
+        git commit -m "Auto update playlist on $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
         git push
