@@ -38,7 +38,7 @@ jobs:
 
     - name: Copy selected playlist files to target repository
       run: |
-        cp *.txt ${{ secrets.TARGET_NAMEXMR }}/ || true
+        cp *.m3u ${{ secrets.TARGET_NAMEXMR }}/ || true
         cp *.json ${{ secrets.TARGET_NAMEXMR }}/ || true
 
     - name: Commit & push to target repository
