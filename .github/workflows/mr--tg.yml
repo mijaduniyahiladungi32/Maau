@@ -22,7 +22,7 @@ jobs:
 
     - name: Unzip protected Python script
       env:
-        ZIP_PASS: ${{ secrets.ZIP_FILET }}
+        ZIP_PASS: ${{ secrets.ZIP_FILEMR }}
       run: unzip -o -P "$ZIP_PASS" mxrtcode.zip
 
     - name: Run Python script
