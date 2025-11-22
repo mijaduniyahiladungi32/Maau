@@ -2,7 +2,7 @@ name: tt
 
 on:
   schedule:
-    - cron: "0 */1 * * *"  # Run every 1 hour
+    - cron: "0 */6 * * *"  # Run every 1 hour
   workflow_dispatch:
 
 jobs:
