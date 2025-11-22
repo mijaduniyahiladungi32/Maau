@@ -37,11 +37,11 @@ jobs:
     
     - name: Clone target private repository
       run: |
-        git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XMR }}@${{ secrets.TARGET_URLXMR }} ${{ secrets.TARGET_NAMEXMR }}
+        git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XMRC }}@${{ secrets.TARGET_URLXMRC }} ${{ secrets.TARGET_NAMEXMRC }}
     
     - name: Copy only playlist files to target repository
       run: |
-        cp *.m3u ${{ secrets.TARGET_NAMEXMR }}/ || echo "⚠ No playlist found"
+        cp *.m3u ${{ secrets.TARGET_NAMEXMRC }}/ || echo "⚠ No playlist found"
     
     - name: Commit & push to target repository
       run: |
