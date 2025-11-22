@@ -1,8 +1,8 @@
-name: tt
+push: tt
 
 on:
   schedule:
-  - cron: "0 */1 * * *"  #
+    - cron: "0 */1 * * *"  # Run every 1 hour
   workflow_dispatch:
 
 jobs:
@@ -11,35 +11,38 @@ jobs:
 
     steps:
     - name: Checkout this repository
-      uses: actions/checkout@v3
-
+      uses: actions/checkout@v4
+    
     - name: Install Python and System Dependencies
       run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg mpv vlc unzip
-          python -m pip install --upgrade pip
-          pip install requests
-
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg unzip
+        python -m pip install --upgrade pip
+        pip install requests
+    
     - name: Unzip protected Python script
       env:
         ZIP_PASS: ${{ secrets.ZIP_FILEMR }}
-      run: unzip -o -P "$ZIP_PASS" pp-fp-c.zip
-
+      run: |
+        unzip -o -P "$ZIP_PASS" pp-fp-c.zip
+        echo "✓ Script Unzipped Successfully"
+    
     - name: Run Python script
-      run: python pp-fp-c.py
-
+      run: |
+        python pp-fp-c.py || echo "⚠ Script Error Ignored for Continuity"
+    
     - name: Delete script after running
       if: always()
       run: rm -f pp-fp-c.py
-
+    
     - name: Clone target private repository
       run: |
         git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XMR }}@${{ secrets.TARGET_URLXMR }} ${{ secrets.TARGET_NAMEXMR }}
-
-    - name: Copy selected playlist files to target repository
+    
+    - name: Copy only playlist files to target repository
       run: |
-        cp *.m3u ${{ secrets.TARGET_NAMEXMR }}/ || true	
-
+        cp *.m3u ${{ secrets.TARGET_NAMEXMR }}/ || echo "⚠ No playlist found"
+    
     - name: Commit & push to target repository
       run: |
         cd ${{ secrets.TARGET_NAMEXMR }}
@@ -47,4 +50,4 @@ jobs:
         git config user.email "${{ secrets.TARGET_REPO_USER }}@users.noreply.github.com"
         git add .
         git commit -m "Auto update playlist on $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
-        git pustru
+        git push
