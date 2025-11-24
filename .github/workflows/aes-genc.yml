@@ -40,15 +40,15 @@ jobs:
 
       - name: Clone target private repository
         run: |
-          git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XMR }}@${{ secrets.TARGET_URLXMR }} ${{ secrets.TARGET_NAMEXMR }}
+          git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XSP }}@${{ secrets.TARGET_URLXMRSP }} ${{ secrets.TARGET_NAMEXMRSP }}
 
       - name: Copy encrypted file to target repository
         run: |
-          cp ${{ env.U_FN }} ${{ secrets.TARGET_NAMEXMR }}/ || true
+          cp ${{ env.U_FN }} ${{ secrets.TARGET_NAMEXMRSP }}/ || true
 
       - name: Commit & push to target repository
         run: |
-          cd ${{ secrets.TARGET_NAMEXMR }}
+          cd ${{ secrets.TARGET_NAMEXMRSP }}
           git config user.name "${{ secrets.TARGET_REPO_USER }}"
           git config user.email "${{ secrets.TARGET_REPO_USER }}@users.noreply.github.com"
           git add .
