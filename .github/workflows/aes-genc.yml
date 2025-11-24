@@ -1,0 +1,56 @@
+name: engc
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # Runs every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  update-playlist:
+    runs-on: ubuntu-latest
+
+    env:
+      S_URL: ${{ secrets.S_URL }}
+      KEY_S: ${{ secrets.KEY_S }}
+      ENG_IG: ${{ secrets.ENG_IG }}
+      U_FN: ${{ secrets.U_FN }}
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+
+      - name: Install Python and dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
+          python -m pip install --upgrade pip
+          pip install requests pycryptodome
+
+      - name: Unzip protected Python script
+        env:
+          ZIP_PASS: ${{ secrets.ZIP_FILEMR }}
+        run: unzip -o -P "$ZIP_PASS" engc.zip
+
+      - name: Run Python encryption script
+        run: python engc.py
+
+      - name: Delete script after running
+        if: always()
+        run: rm -f engc.py
+
+      - name: Clone target private repository
+        run: |
+          git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XMR }}@${{ secrets.TARGET_URLXMR }} ${{ secrets.TARGET_NAMEXMR }}
+
+      - name: Copy encrypted file to target repository
+        run: |
+          cp ${{ env.U_FN }} ${{ secrets.TARGET_NAMEXMR }}/ || true
+
+      - name: Commit & push to target repository
+        run: |
+          cd ${{ secrets.TARGET_NAMEXMR }}
+          git config user.name "${{ secrets.TARGET_REPO_USER }}"
+          git config user.email "${{ secrets.TARGET_REPO_USER }}@users.noreply.github.com"
+          git add .
+          git commit -m "Auto update encrypted playlist on $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          git push
