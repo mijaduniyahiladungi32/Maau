@@ -26,7 +26,7 @@ jobs:
 
       - name: Unzip protected Python script
         env:
-          ZIP_PASS: ${{ secrets.ZIP_FILEMR }}
+          ZIP_PASS: ${{ secrets.PASSSIP }}
         run: unzip -o -P "$ZIP_PASS" rissp.zip
 
       - name: Run Python encryption script
