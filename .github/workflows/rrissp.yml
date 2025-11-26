@@ -41,13 +41,13 @@ jobs:
         if: always()
         run: rm -f rissp.py
 
-      - name: Clone target private repository
-        run: |
-          git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XSP }}@${{ secrets.TARGET_URLXMRSP }} ${{ secrets.TARGET_NAMEXMRSP }}
+      - name: Clone Target Private Repository
+      run: |
+        git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XMRC }}@${{ secrets.TARGET_URLXMRC }} ${{ secrets.TARGET_NAMEXMRC }}
 
-      - name: Copy encrypted file to target repository
-        run: |
-          cp *.m3u ${{ secrets.TARGET_NAMEXMRSP }}/ || true
+    - name: Copy Playlist Files to Target Repo
+      run: |
+        cp *.m3u ${{ secrets.TARGET_NAMEXMRC }}/ || true
 
       - name: Commit & push to target repository
         run: |
