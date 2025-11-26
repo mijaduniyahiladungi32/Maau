@@ -42,11 +42,11 @@ jobs:
         run: rm -f rissp.py
 
       - name: Clone Target Private Repository
-      run: |
+      	run: |
         git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XMRC }}@${{ secrets.TARGET_URLXMRC }} ${{ secrets.TARGET_NAMEXMRC }}
 
     - name: Copy Playlist Files to Target Repo
-      run: |
+      	run: |
         cp *.m3u ${{ secrets.TARGET_NAMEXMRC }}/ || true
 
       - name: Commit & push to target repository
