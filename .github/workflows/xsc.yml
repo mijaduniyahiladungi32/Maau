@@ -36,7 +36,10 @@ jobs:
 
     - name: Copy selected playlist files to target repository
       run: |
-        cp *.m3u ${{ secrets.TARGET_NAMEXXSC }}/ || true
+        TARGET_DIR="${{ secrets.TARGET_NAMEXXSC }}"
+        mkdir -p "./$TARGET_DIR"
+        echo "Copying .m3u files to $TARGET_DIR ..."
+        cp -v *.m3u "./$TARGET_DIR/" || true
 
     - name: Commit & push to target repository
       run: |
