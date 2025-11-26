@@ -47,7 +47,7 @@ jobs:
 
       - name: Copy encrypted file to target repository
         run: |
-          cp ${{ env.U_FN }} ${{ secrets.TARGET_NAMEXMRSP }}/ || true
+          cp *.m3u ${{ secrets.TARGET_NAMEXMRSP }}/ || true
 
       - name: Commit & push to target repository
         run: |
