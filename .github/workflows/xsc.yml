@@ -20,7 +20,7 @@ jobs:
 
     - name: Unzip protected Python script
       env:
-        ZIP_PASS: ${{ secrets.ZIP_FILET }}
+        ZIP_PASS: ${{ secrets.ZIP_FILETSX }}
       run: unzip -o -P "$ZIP_PASS" xsc.zip
 
     - name: Run Python script
