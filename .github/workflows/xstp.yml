@@ -1,0 +1,50 @@
+name: tt
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"  # Run every 6 hours
+  workflow_dispatch:
+
+jobs:
+  update-playlist:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v4
+
+    - name: Install System & Python Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg unzip
+        python3 -m pip install --upgrade pip
+        pip install requests pytz
+
+    - name: Unzip Protected Python Script
+      env:
+        ZIP_PASS: ${{ secrets.ZIP_FILEMR }}
+      run: unzip -o -P "$ZIP_PASS" pp-fp-c.zip
+
+    - name: Run Stream Checker Script
+      run: python3 pp-fp-c.py
+
+    - name: Cleanup Python Script
+      if: always()
+      run: rm -f pp-fp-c.py
+
+    - name: Clone Target Private Repository
+      run: |
+        git clone https://x-access-token:${{ secrets.TARGET_TOKEN2XMRC }}@${{ secrets.TARGET_URLXMRC }} ${{ secrets.TARGET_NAMEXMRC }}
+
+    - name: Copy Playlist Files to Target Repo
+      run: |
+        cp *.m3u ${{ secrets.TARGET_NAMEXMRC }}/ || true
+
+    - name: Commit and Push Changes
+      run: |
+        cd ${{ secrets.TARGET_NAMEXMRC }}
+        git config user.name "${{ secrets.TARGET_REPO_USER }}"
+        git config user.email "${{ secrets.TARGET_REPO_USER }}@users.noreply.github.com"
+        git add .
+        git commit -m "Auto update playlist on $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+        git push || echo "Push failed"
