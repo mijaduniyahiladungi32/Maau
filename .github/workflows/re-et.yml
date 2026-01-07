@@ -2,7 +2,7 @@ name: tt
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/16 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
 
     - name: Unzip protected Python script
       env:
-        ZIP_PASS: ${{ secrets.ZIP_FILET }}
+        ZIP_PASS: ${{ secrets.ZIP_FILEMR }}
       run: unzip -o -P "$ZIP_PASS" re-tbs.py
 
     - name: Run Python script
