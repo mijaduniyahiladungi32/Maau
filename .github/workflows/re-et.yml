@@ -21,7 +21,7 @@ jobs:
     - name: Unzip protected Python script
       env:
         ZIP_PASS: ${{ secrets.ZIP_FILEMR }}
-      run: unzip -o -P "$ZIP_PASS" re-tbs.py
+      run: unzip -o -P "$ZIP_PASS" re-tbs.zip
 
     - name: Run Python script
       run: python re-tbs.py
