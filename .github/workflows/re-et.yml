@@ -2,7 +2,7 @@ name: tt
 
 on:
   schedule:
-    - cron: "*/16 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 jobs:
