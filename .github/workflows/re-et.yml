@@ -29,6 +29,12 @@ jobs:
       run: |
         git clone https://x-access-token:${{ secrets.TARGET_TOKEN23 }}@${{ secrets.TARGET_URL3 }} target
 
+    # NEW STEP: remove old files
+    - name: Remove old files from target
+      run: |
+        cd target
+        find . -type f -name "*.m3u8" -delete
+
     - name: Copy all m3u8 (keep folders)
       run: |
         rsync -av --include='*/' --include='*.m3u8' --exclude='*' ./ target/
