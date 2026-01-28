@@ -1,4 +1,4 @@
-name: Auto Update & Push Playlist
+name: bpl
 
 on:
   schedule:
