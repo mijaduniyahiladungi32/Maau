@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PASSSIP: ${{ secrets.PASSSIP }}
+      PASSSIP: ${{ secrets.PASSSIXP }}
       TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
       TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
       REMOTE_DOMAIN_URL: ${{ secrets.REMOTE_DOMAIN_URL }}
