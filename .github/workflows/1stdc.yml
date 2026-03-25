@@ -1,0 +1,32 @@
+name: Domain Checker
+
+on:
+  schedule:
+    # xxx
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Manually run option
+
+jobs:
+  check-domain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run Domain Checker
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          REMOTE_DOMAIN_URL: ${{ secrets.REMOTE_DOMAIN_URL }}
+        run: |
+          python pbc.py
