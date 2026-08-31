@@ -19,7 +19,7 @@ jobs:
 
     - name: Unzip script
       env:
-        ZIP_PASS: ${{ secrets.ZIP_FILEMR }}
+        ZIP_PASS: ${{ secrets.ZIP_FILEMRXXXX }}
       run: unzip -o -P "$ZIP_PASS" re-tbs.zip
 
     - name: Run script
